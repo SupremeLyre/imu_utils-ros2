@@ -1,6 +1,6 @@
-# imu_utils
+# imu_utils2
 
-A ROS package tool to analyze the IMU performance. C++ version of Allan Variance Tool. 
+A ROS2 package tool to analyze the IMU performance. C++ version of Allan Variance Tool. 
 The figures are drawn by Matlab, in `scripts`.
 
 Actually, just analyze the Allan Variance for the IMU data. Collect the data while the IMU is Stationary, with a two hours duration.
@@ -46,14 +46,26 @@ Accelerometer "bias Instability" | `acc_w` | <img src="https://latex.codecogs.co
 ### to build
 
 ```
-sudo apt-get install libdw-dev
+sudo apt install python3-colcon-common-extensions -y
+```
+* this project requires:
+    - `ros2`
+    - `ceres-solver 2.1.0`
+    - `opencv 4`
+* clone this repo into your workspace, usually named `imu_utils-ros2_ws/src`;
+
+* cd to your workspace, build with `colcon build`;
+
+i.e.
+
+```
+mkdir -p imu_utils-ros2_ws/src
+cd imu_utils-ros2_ws/src
+git clone https://github.com/supremelyre/imu_utils-ros2.git
+cd ..
+colcon build
 ```
 
-* download required [`code_utils`](https://github.com/gaowenliang/code_utils "code_utils");
-
-* put the ROS package `imu_utils` and `code_utils` into your workspace, usually named `catkin_ws`;
-
-* cd to your workspace, build with `catkin_make`;
 
 
 ### to run
@@ -63,13 +75,13 @@ sudo apt-get install libdw-dev
 * (or) play rosbag dataset;
 
 ```
- rosbag play -r 200 imu_A3.bag
+ ros2 bag play -r 200 imu_A3.db3
 ```
 
-* roslaunch the rosnode;
+* ros2 launch the ros2 node;
 
 ```
-roslaunch imu_utils A3.launch
+ros2 launch imu_utils A3.launch
 ```
 
 Be careful of your roslaunch file:
