@@ -14,6 +14,7 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+set(OpenCV_DIR "/usr/local/opencv-4.12.0/lib/cmake/opencv4")
 find_package(OpenCV REQUIRED)
 find_package(Ceres REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -40,6 +41,11 @@ ament_target_dependencies(imu_an ${dependencies})
 # target_link_libraries(imu_an ${OpenCV_LIBS} ${CERES_LIBRARIES})
 install(TARGETS imu_an
     DESTINATION lib/${PROJECT_NAME})
+
+# 安装launch文件
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
     find_package(ament_lint_auto REQUIRED)

@@ -77,6 +77,12 @@ colcon build
 ```
  ros2 bag play -r 200 imu_A3.db3
 ```
+you may need to convert your ros1 bag to ros2 one, using:
+
+```
+pip install rosbags-convert
+rosbags-convert --src imu_A3.bag --dst imu_A3
+```
 
 * ros2 launch the ros2 node;
 

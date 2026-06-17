@@ -16,6 +16,7 @@
 #include <queue>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/imu.hpp>
+#include <string>
 
 std::mutex m_buf;
 
@@ -195,11 +196,17 @@ int main(int argc, char **argv)
     std::string IMU_NAME;
     int max_cluster;
 
-    IMU_TOPIC = n->get_parameter("imu_topic").as_string();
-    IMU_NAME = n->get_parameter("imu_name").as_string();
-    data_save_path = n->get_parameter("data_save_path").as_string();
-    max_time_min = n->get_parameter("max_time_min").as_int();
-    max_cluster = n->get_parameter("max_cluster").as_int();
+    IMU_TOPIC = n->declare_parameter<std::string>("imu_topic");
+    IMU_NAME = n->declare_parameter<std::string>("imu_name");
+    data_save_path = n->declare_parameter<std::string>("data_save_path");
+    max_time_min = n->declare_parameter<int>("max_time_min");
+    max_cluster = n->declare_parameter<int>("max_cluster");
+
+    std::cout << "imu topic: " << IMU_TOPIC << std::endl;
+    std::cout << "imu name: " << IMU_NAME << std::endl;
+    std::cout << "data save path: " << data_save_path << std::endl;
+    std::cout << "max time min: " << max_time_min << std::endl;
+    std::cout << "max cluster: " << max_cluster << std::endl;
 
     auto sub_imu = n->create_subscription<sensor_msgs::msg::Imu>(IMU_TOPIC, 200000000, imu_callback);
 
@@ -295,6 +302,6 @@ int main(int argc, char **argv)
     writeData3(IMU_NAME + "_acc", acc_ts_x, acc_d_x, acc_d_y, acc_d_z);
 
     writeYAML(data_save_path, IMU_NAME, fit_gyr_x, fit_gyr_y, fit_gyr_z, fit_acc_x, fit_acc_y, fit_acc_z);
-
+    rclcpp::shutdown();
     return 0;
 }
